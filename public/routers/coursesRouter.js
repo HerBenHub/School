@@ -43,4 +43,21 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, description } = req.body;
+    if(id < 0){
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+    }
+    if (!title || !description) {
+        return res.status(400).send({ error: 'Hiányzó adatok!' });
+    }
+  try {
+    await coursesModel.updateCourse(id, title, description);
+    res.status(200).send({ id, title, description });
+  } catch (error) {
+    res.status(501).send({ error: 'Nem lehetett frissíteni a kurzust!' });
+  }
+});
+
 export default router;

@@ -17,3 +17,10 @@ export const createCourse = async (title, description) => {
   );
   return result.insertId;
 }
+
+export const updateCourse = async (id, title, description) => {
+  await pool.execute(
+    'UPDATE courses SET title = ?, description = ? WHERE id = ?',
+    [title, description, id]
+  );
+}
