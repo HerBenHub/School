@@ -11,4 +11,21 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+    if(id < 0){
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+    }
+    try {
+    const student = await studentsModel.getStudentById(id);
+    if (student) {
+      res.status(201).send(student);
+    } else {
+      res.status(404).send({ error: 'Diák nem található!' });
+    }
+  } catch (error) {
+    res.status(501).send({ error: 'Nem lehetett lekérdezni a diákot!' });
+  }
+});
+
 export default router;
