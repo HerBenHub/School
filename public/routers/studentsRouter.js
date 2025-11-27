@@ -13,9 +13,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
+
     if(id < 0){
         return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
     }
+    
     try {
     const student = await studentsModel.getStudentById(id);
     if (student) {
@@ -41,11 +43,31 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { name, email } = req.body;
+
+  if(id < 0){
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+    }
+
   try {
     await studentsModel.updateStudent(id, name, email);
     res.status(200).send({ id, name, email });
   } catch (error) {
     res.status(501).send({ error: 'Nem lehetett frissíteni a diákot!' });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+if(id < 0){
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+    }
+
+  try {
+    await studentsModel.deleteStudent(id);
+    res.status(200).send({ message: 'Diák törölve!' });
+  } catch (error) {
+    res.status(501).send({ error: 'Nem lehetett törölni a diákot!' });
   }
 });
 
