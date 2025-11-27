@@ -60,4 +60,17 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+    if(id < 0){
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+    }
+  try {
+    await coursesModel.deleteCourse(id);
+    res.status(200).send({ message: 'Kurzus törölve!' });
+  } catch (error) {
+    res.status(501).send({ error: 'Nem lehetett törölni a kurzust!' });
+  }
+});
+
 export default router;
