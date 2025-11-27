@@ -17,3 +17,10 @@ export const createStudent = async (name, email) => {
   );
   return result.insertId;
 }
+
+export const updateStudent = async (id, name, email) => {
+  await pool.execute(
+    'UPDATE students SET name = ?, email = ? WHERE id = ?',
+    [name, email, id]
+  );
+}

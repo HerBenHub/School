@@ -38,4 +38,15 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, email } = req.body;
+  try {
+    await studentsModel.updateStudent(id, name, email);
+    res.status(200).send({ id, name, email });
+  } catch (error) {
+    res.status(501).send({ error: 'Nem lehetett frissíteni a diákot!' });
+  }
+});
+
 export default router;
