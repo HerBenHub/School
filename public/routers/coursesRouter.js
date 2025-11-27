@@ -11,4 +11,36 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+    if(id < 0){
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+    }
+
+  try {
+    const course = await coursesModel.getCourseById(id);
+    if (course) {
+      res.status(201).send(course);
+    } else {
+      res.status(404).send({ error: 'Kurzus nem található!' });
+    }
+  } catch (error) {
+    res.status(501).send({ error: 'Nem lehetett lekérdezni a kurzust!' });
+  }
+});
+
+router.post('/', async (req, res) => {
+  const { title, description } = req.body;
+    if (!title || !description) {
+        return res.status(400).send({ error: 'Hiányzó adatok!' });
+    }
+  try {
+    const newCourseId = await coursesModel.createCourse(title, description);
+    res.status(201).send({ id: newCourseId, title, description });
+  } catch (error) {
+    res.status(501).send({ error: 'Nem lehetett létrehozni a kurzust!' });
+  }
+});
+
 export default router;
