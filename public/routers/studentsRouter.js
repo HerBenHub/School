@@ -28,4 +28,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.post('/', async (req, res) => {
+  const { name, email } = req.body;
+  try {
+    const newStudentId = await studentsModel.createStudent(name, email);
+    res.status(201).send({ id: newStudentId, name, email });
+  } catch (error) {
+    res.status(501).send({ error: 'Nem lehetett létrehozni a diákot!' });
+  }
+});
+
 export default router;
