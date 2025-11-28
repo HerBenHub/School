@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     const enrollments = await enrollmentsModel.getAllEnrollments();
     res.status(201).send(enrollments);
     } catch (error) {
-    res.status(501).send({error: 'Nem lehetett lekérdezni az adatokat!'});
+    res.status(501).send({error: 'Nem lehetett lekérdezni az adatokat!', details: error.message});
   }
 });
 
@@ -23,10 +23,10 @@ router.get('/:id', async (req, res) => {
     if (enrollment) {
       res.status(201).send(enrollment);
     } else {
-      res.status(404).send({ error: 'Beiratkozás nem található!' });
+      res.status(404).send({ error: 'Beiratkozás nem található!' , details: error.message});
     }
   } catch (error) {
-    res.status(501).send({ error: 'Nem lehetett lekérdezni a beiratkozást!' });
+    res.status(501).send({ error: 'Nem lehetett lekérdezni a beiratkozást!' , details: error.message});
   }
 });
 
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
   const { studentId, courseId, enrolled_at } = req.body;
 
     if (!studentId || !courseId) {
-        return res.status(400).send({ error: 'Hiányzó adatok!' });
+        return res.status(400).send({ error: 'Hiányzó adatok!' , details: error.message});
     }
 
     try {
@@ -50,11 +50,11 @@ router.put('/:id', async (req, res) => {
   const { studentId, courseId } = req.body;
 
     if(id < 0){
-        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' , details: error.message});
     }
 
     if (!studentId || !courseId) {
-        return res.status(400).send({ error: 'Hiányzó adatok!' });
+        return res.status(400).send({ error: 'Hiányzó adatok!' , details: error.message});
     }
 
     try {
@@ -69,7 +69,7 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
     if(id < 0){
-        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' , details: error.message});
     }
 
     try {

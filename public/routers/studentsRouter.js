@@ -45,14 +45,14 @@ router.put('/:id', async (req, res) => {
   const { name, email } = req.body;
 
   if(id < 0){
-        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' , details: error.message});
     }
 
   try {
     await studentsModel.updateStudent(id, name, email);
     res.status(200).send({ id, name, email });
   } catch (error) {
-    res.status(501).send({ error: 'Nem lehetett frissíteni a diákot!' });
+    res.status(501).send({ error: 'Nem lehetett frissíteni a diákot!' , details: error.message});
   }
 });
 
@@ -60,14 +60,14 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
 if(id < 0){
-        return res.status(404).send({ error: 'Az ID nem lehet negatív!' });
+        return res.status(404).send({ error: 'Az ID nem lehet negatív!' , details: error.message});
     }
 
   try {
     await studentsModel.deleteStudent(id);
     res.status(200).send({ message: 'Diák törölve!' });
   } catch (error) {
-    res.status(501).send({ error: 'Nem lehetett törölni a diákot!' });
+    res.status(501).send({ error: 'Nem lehetett törölni a diákot!' , details: error.message});
   }
 });
 
