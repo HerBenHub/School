@@ -22,3 +22,7 @@ export const updateEnrollment = async (id, studentId, courseId) => {
     [studentId, courseId, id]
   );
 }
+
+export const deleteEnrollment = async (id) => {
+  await pool.execute('DELETE FROM enrollments WHERE id = ?', [id]);
+}
